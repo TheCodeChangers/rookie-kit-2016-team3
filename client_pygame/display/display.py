@@ -41,7 +41,7 @@ class Display(BaseDisplay):
     paint_waiting_for_game controls the drawing of the screen
         after you have requested to join a game, but before
         the game actually begins.
-    
+
     paint_game_over controls the drawing of the screen after
         the game has been won, but before the game goes away.
         This is a short (3-5 second) period.
@@ -72,11 +72,11 @@ class Display(BaseDisplay):
         of the information to display.
     event is used in process_event to communicate what
         interesting thing occurred.
-    
+
     Note on text display:  There are 3 methods to assist
     in the display of text.  They are inherited from the
     BaseDisplay class.  See client/base_display.py.
-    
+
     """
 
     def __init__(self, width, height):
@@ -89,7 +89,7 @@ class Display(BaseDisplay):
         # There are other fonts available, but they are not
         # the same on every computer.  You can read more about
         # fonts at http://www.pygame.org/docs/ref/font.html
-        self.font_size = 12
+        self.font_size = 36
         self.font = pygame.font.SysFont("Courier New",self.font_size)
 
         # Colors are specified as a triple of integers from 0 to 255.
@@ -123,7 +123,7 @@ class Display(BaseDisplay):
                               self.width/2, self.height/2 + 3*self.font_size/2,
                               self.font)
         return
-        
+
     def paint_waiting_for_game(self, surface, engine, control):
         """
         Draws the display after user selects the game type, before the game begins.
@@ -147,7 +147,7 @@ class Display(BaseDisplay):
         # background
         rect = pygame.Rect(0, 0, self.width, self.height)
         surface.fill(self.background_color, rect)
-            
+
         # draw each object
         objs = engine.get_objects()
         for key in objs:
@@ -162,13 +162,13 @@ class Display(BaseDisplay):
                 self.paint_player(surface, engine, control, obj)
             else:
                 print "Unexpected object type: %s" % (str(obj.__class__))
-                
+
         # draw game data
         if control.show_info:
             self.paint_game_status(surface, engine, control)
         return
 
-        
+
     def paint_game_over(self, surface, engine, control):
         """
         Draws the display after the game ends.  This
@@ -176,7 +176,7 @@ class Display(BaseDisplay):
         message.
         """
         self.paint_game(surface, engine, control)
-        
+
         s = "Game Over (%s wins!)" % (engine.get_winner_name())
         self.draw_text_center(surface, s, self.text_color, int(self.width/2), int(self.height/2), self.font)
         return
@@ -199,7 +199,7 @@ class Display(BaseDisplay):
         rect = self.obj_to_rect(obj)
         pygame.draw.rect(surface, self.wall_color, rect)
         return
-        
+
     def paint_npc(self, surface, engine, control, obj):
         """
         Draws living NPCs.
@@ -209,7 +209,7 @@ class Display(BaseDisplay):
             rect = self.obj_to_rect(obj)
             pygame.draw.rect(surface, color, rect)
         return
-        
+
     def paint_missile(self, surface, engine, control, obj):
         """
         Draws living missiles.
@@ -219,7 +219,7 @@ class Display(BaseDisplay):
             rect = self.obj_to_rect(obj)
             pygame.draw.rect(surface, color, rect)
         return
-        
+
     def paint_player(self, surface, engine, control, obj):
         """
         Draws living players.
@@ -243,7 +243,7 @@ class Display(BaseDisplay):
 
         # display my stats
         oid = engine.get_player_oid()
-        if oid > 0: 
+        if oid > 0:
             obj = engine.get_object(oid)
             if obj:
                 s = "Me: %s  HP: %.1f  XP: %.1f Mv: %.1f Ms: %.1f" % \
@@ -255,10 +255,10 @@ class Display(BaseDisplay):
                 position_x = 20
                 position_y = self.height - STATUS_BAR_HEIGHT + 3 * self.font_size / 2
                 self.draw_text_left(surface, s, self.text_color, position_x, position_y, self.font)
-                
+
         # display opponent's stats
         oid = engine.get_opponent_oid()
-        if oid > 0: 
+        if oid > 0:
             obj = engine.get_object(oid)
             if obj:
                 s = "Opponent: %s  HP: %.1f  XP: %.1f Mv: %.1f Ms: %.1f" % \
