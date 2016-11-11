@@ -231,7 +231,9 @@ class Display(BaseDisplay):
                 color = self.player_color
             else:
                 color = self.opponent_color
-            pygame.draw.rect(surface, color, rect)
+            pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
+        
+
         return
 
     def paint_game_status(self, surface, engine, control):
