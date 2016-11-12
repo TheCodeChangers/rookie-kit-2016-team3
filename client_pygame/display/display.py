@@ -214,9 +214,12 @@ class Display(BaseDisplay):
         Draws living NPCs.
         """
         if obj.is_alive():
-            color = self.npc_color
-            rect = self.obj_to_rect(obj)
-            pygame.draw.rect(surface, color, rect)
+               file_path = os.path.join('display', 'images', 'mushroom.gif')
+               image = pygame.image.load(file_path)
+               image = image.convert_alpha()
+               rect = self.obj_to_rect(obj)
+               surface.blit(image, rect)
+           
         return
 
     def paint_missile(self, surface, engine, control, obj):
@@ -224,9 +227,11 @@ class Display(BaseDisplay):
         Draws living missiles.
         """
         if obj.is_alive():
-            color = self.missile_color
+            file_path = os.path.join('display', 'images', 'fire.gif')
+            image = pygame.image.load(file_path)
+            image = image.convert_alpha()
             rect = self.obj_to_rect(obj)
-            pygame.draw.rect(surface, color, rect)
+            surface.blit(image, rect)
         return
 
     def paint_player(self, surface, engine, control, obj):
@@ -259,7 +264,7 @@ class Display(BaseDisplay):
                 surface.blit(image, rect)
                 width = obj.get_pw()
                 height = obj.get_ph()
-                image = pygame.transform.scale(image, (width,height))
+                image = pygame.transform.scale(image, (100,100))
             #pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
             (x, y) = obj.get_center()
             x = int( round(x) )
