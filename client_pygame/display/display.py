@@ -107,8 +107,8 @@ class Display(BaseDisplay):
         self.background_color = (0, 0, 0)
         self.hbar_outer_color = (200, 0, 0)
         self.hbar_inner_color = (3,255,1)
-        self.mbar_outer_color = (0, 0, 200)
-        self.mbar_inner_color = (3,3,200)
+        self.mvbar_color = (0, 0, 200)
+        self.mibar_color = (3,3,200)
 
         music_path = os.path.join('display', 'music', 'hadden.wav')
         pygame.mixer.init()
@@ -241,20 +241,29 @@ class Display(BaseDisplay):
         if obj.is_alive():
             rect = self.obj_to_rect(obj)
             if obj.get_oid() == engine.get_player_oid():
+                player = engine.get_object(obj.get_oid())
+                move_mana = player.get_move_mana() / player.get_move_mana_max()
+                missile_mana = player.get_missile_mana() / player.get_missile_mana_max()
                 # file_path = os.path.join('display', 'images', 'mario.gif')
                 # image = pygame.image.load(file_path)
                 # image = image.convert_alpha() # might not be nessesary depending on OS
                 # surface.blit(image, rect)
                 color = self.player_color
 
-                hbar_outer = pygame.Rect(10, 10 , 200,40 )
-                hbar_inner = pygame.Rect(10, 10, 200 * health,40  )
+                hbar_outer = pygame.Rect(10, 10, 200, 40)
+                hbar_inner = pygame.Rect(10, 10, 200 * health, 40)
                 pygame.draw.rect(surface, self.hbar_outer_color, hbar_outer)
                 pygame.draw.rect(surface, self.hbar_inner_color, hbar_inner)
 
-                hbar_inner = pygame.Rect(5, 5, 210 * health,20  )
-                pygame.draw.rect(surface, self.hbar_inner_color, hbar_inner)
+                mvbar_inner = pygame.Rect(5, 5, 210 * move_mana, 20)
+                pygame.draw.rect(surface, self.mvbar_color, mvbar_inner)
+
+                mibar_inner = pygame.Rect(5, 35, 210 * missile_mana, 20)
+                pygame.draw.rect(surface, self.mibar_color, mibar_inner)
             else:
+                player = engine.get_object(obj.get_oid())
+                move_mana = player.get_move_mana() / player.get_move_mana_max()
+                missile_mana = player.get_missile_mana() / player.get_missile_mana_max()
                 # file_path = os.path.join('display', 'images', 'bowser.png')
                 # image = pygame.image.load(file_path)
                 # image = image.convert_alpha() # might not be nessesary depending on OS
@@ -262,6 +271,17 @@ class Display(BaseDisplay):
                 # rect = self.obj_to_rect(obj)
                 # surface.blit(image, rect)
                 color = self.opponent_color
+
+                hbar_outer = pygame.Rect(self.width - 210, 10, 200, 40)
+                hbar_inner = pygame.Rect(self.width - 210, 10, 200 * health, 40)
+                pygame.draw.rect(surface, self.hbar_outer_color, hbar_outer)
+                pygame.draw.rect(surface, self.hbar_inner_color, hbar_inner)
+
+                mvbar_inner = pygame.Rect(self.width - 215, 5, 210 * move_mana, 20)
+                pygame.draw.rect(surface, self.mvbar_color, mvbar_inner)
+
+                mibar_inner = pygame.Rect(self.width - 215, 35, 210 * missile_mana, 20)
+                pygame.draw.rect(surface, self.mibar_color, mibar_inner)
 
             pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
             (x, y) = obj.get_center()

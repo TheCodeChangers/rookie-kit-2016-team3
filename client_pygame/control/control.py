@@ -129,13 +129,10 @@ class Control(BaseControl):
         
         if pygame.K_UP in keys or pygame.K_w in keys:
             engine.set_player_direction(270)
-            
         elif pygame.K_DOWN in keys or pygame.K_s in keys:
             engine.set_player_direction(90)
-            
         elif pygame.K_LEFT in keys or pygame.K_a in keys:
-            engine.set_player_direction(180)
-            
+            engine.set_player_direction(180)   
         elif pygame.K_RIGHT in keys or pygame.K_d in keys:
             engine.set_player_direction(0)
             
