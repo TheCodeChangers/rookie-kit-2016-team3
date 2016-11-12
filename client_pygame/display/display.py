@@ -4,6 +4,7 @@
 #
 
 import pygame
+import os
 from config import *
 from common.event import *
 from client.base_display import BaseDisplay
@@ -104,6 +105,14 @@ class Display(BaseDisplay):
         self.wall_color       = (255, 255, 255)
         self.text_color       = (255, 255, 255)
         self.background_color = (0, 0, 0)
+        self.hbar_inner_color = (200, 0, 0)
+        self.hbar_outer_color = (3,255,1)
+        music_path = os.path.join('display', 'music', 'hadden.wav')
+        pygame.mixer.init()
+        pygame.mixer.music.load(music_path)
+        pygame.mixer.music.play(-1)
+
+
         return
 
     def paint_pregame(self, surface, control):
@@ -225,10 +234,18 @@ class Display(BaseDisplay):
         Draws living players.
         My player is my opponent are in different colors
         """
+
+        health = obj.get_health() / obj.get_max_health()
+
         if obj.is_alive():
             rect = self.obj_to_rect(obj)
             if obj.get_oid() == engine.get_player_oid():
                 color = self.player_color
+                hbar_outer = pygame.Rect(10, 5 , 200,40 )
+                hbar_inner = pygame.Rect(10, 5, 200 * health,40  )
+                
+                pygame.draw.rect(surface, self.hbar_outer_color, hbar_outer)
+                pygame.draw.rect(surface, self.hbar_inner_color, hbar_inner)
             else:
                 color = self.opponent_color
             pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
