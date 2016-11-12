@@ -4,6 +4,7 @@
 #
 
 import pygame
+import os
 from config import *
 from common.event import *
 from client.base_display import BaseDisplay
@@ -97,13 +98,19 @@ class Display(BaseDisplay):
         # Check out http://www.colorpicker.com/ if you want to try out
         # colors and find their RGB values.   Be sure to use the `R`, `G`,
         # `B` values at the bottom, not the H, S, B values at the top.
-        self.player_color     = (0, 255, 0)
+        #self.player_color     = (0, 255, 0)
         self.opponent_color   = (255, 0, 0)
         self.missile_color    = (0, 255, 255)
         self.npc_color        = (255, 255, 0)
         self.wall_color       = (255, 255, 255)
         self.text_color       = (255, 255, 255)
         self.background_color = (0, 0, 0)
+
+        music_path = os.path.join('display', 'music', 'hadden.wav')
+        pygame.mixer.init()
+        pygame.mixer.music.load(music_path)
+        pygame.mixer.music.play(-1)
+
         return
 
     def paint_pregame(self, surface, control):
@@ -228,15 +235,31 @@ class Display(BaseDisplay):
         if obj.is_alive():
             rect = self.obj_to_rect(obj)
             if obj.get_oid() == engine.get_player_oid():
-                color = self.player_color
+                file_path = os.path.join('display', 'images', 'mario.gif')
+                image = pygame.image.load(file_path)
+                image = image.convert_alpha() # might not be nessesary depending on OS
+
+                rect = self.obj_to_rect(obj)
+                surface.blit(image, rect)
+                width = obj.get_pw()
+                height = obj.get_ph()
+                image = pygame.transform.scale(image, (width,height))
             else:
-                color = self.opponent_color
-            pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
+                file_path = os.path.join('display', 'images', 'bowser.png')
+                image = pygame.image.load(file_path)
+                image = image.convert_alpha() # might not be nessesary depending on OS
+
+                rect = self.obj_to_rect(obj)
+                surface.blit(image, rect)
+                width = obj.get_pw()
+                height = obj.get_ph()
+                image = pygame.transform.scale(image, (width,height))
+            #pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
             (x, y) = obj.get_center()
             x = int( round(x) )
             y = int( round(y) )
             missle_range = int( round(obj.get_missile_range()) )
-            pygame.draw.circle(surface, color, (x,y), missle_range, 1)
+            #pygame.draw.circle(surface, color, (x,y), missle_range, 1)
         return
 
     def paint_game_status(self, surface, engine, control):
