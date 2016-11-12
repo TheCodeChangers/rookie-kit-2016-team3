@@ -3,6 +3,8 @@
 # Make changes and add functions as you need.
 #
 
+
+import math
 import pygame
 from client.base_control import *
 
@@ -110,8 +112,20 @@ class Control(BaseControl):
         to make changes to the game engine based on the
         user input.
         """
-        
+
         (mouse_x, mouse_y) = mouse_position
+        
+        oid = engine.get_player_oid()
+        if oid > 0:
+            player = engine.get_object(oid)
+            (x1,y1) = player.get_center()
+            dx = mouse_x-x1
+            dy = mouse_y-y1
+            radians = math.atan2(dy, dx)
+            radians %= 2*math.pi
+            degrees = math.degrees(radians)
+            engine.set_missile_direction(degrees)
+            engine.set_player_direction(degrees)
         
         if pygame.K_UP in keys or pygame.K_w in keys:
             engine.set_player_direction(270)
@@ -128,7 +142,7 @@ class Control(BaseControl):
 
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
-        elif pygame.K_w in newkeys:
+        elif pygame.K_2 in newkeys:
             engine.set_player_speed_slow()
             
         if pygame.K_q in newkeys:
