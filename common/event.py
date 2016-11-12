@@ -21,6 +21,7 @@
 
 
 import json
+import pygame
 
 E_NONE = "NONE"
 E_MISSILE_FIRE = "MISSILE_FIRE"
@@ -75,6 +76,9 @@ class MissileFireEvent(Event):
         self.set_missile_oid(missile_oid)
         self.set_missile_range(missile_range)
         self.set_missile_power(missile_power)
+
+        sound = pygame.mixer.Sound("missile.wav")
+        sound.play()
         return
     def set_player_oid(self, player_oid=None):
         self.set_data("player_oid", player_oid)
@@ -114,6 +118,9 @@ class MissileHitEvent(Event):
         self.set_player_oid(player_oid)
         self.set_missile_oid(missile_oid)
         self.set_target_oid(target_oid)
+        
+        sound = pygame.mixer.Sound("bomb.wav")
+        sound.play()
         return
     def set_player_oid(self, player_oid=None):
         self.set_data("player_oid", player_oid)
