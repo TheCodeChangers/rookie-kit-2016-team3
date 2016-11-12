@@ -257,9 +257,11 @@ class Display(BaseDisplay):
 
                 mvbar_inner = pygame.Rect(5, 5, 210 * move_mana, 20)
                 pygame.draw.rect(surface, self.mvbar_color, mvbar_inner)
-
+                # s = "Player"(5, 20, 210)
                 mibar_inner = pygame.Rect(5, 35, 210 * missile_mana, 20)
                 pygame.draw.rect(surface, self.mibar_color, mibar_inner)
+
+                self.draw_text_center(surface, engine.get_name(), self.text_color, 110, 30, self.font)
             else:
                 player = engine.get_object(obj.get_oid())
                 move_mana = player.get_move_mana() / player.get_move_mana_max()
@@ -282,6 +284,8 @@ class Display(BaseDisplay):
 
                 mibar_inner = pygame.Rect(self.width - 215, 35, 210 * missile_mana, 20)
                 pygame.draw.rect(surface, self.mibar_color, mibar_inner)
+
+                self.draw_text_center(surface, engine.get_opponent_name(), self.text_color, self.width - 110, 30, self.font)
 
             pygame.draw.circle(surface, color, (obj.get_px() + (obj.get_pw()/2), obj.get_py() + (obj.get_ph()/2)), obj.get_ph()/2)
             (x, y) = obj.get_center()
