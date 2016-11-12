@@ -105,6 +105,8 @@ class Display(BaseDisplay):
         self.wall_color       = (255, 255, 255)
         self.text_color       = (255, 255, 255)
         self.background_color = (0, 0, 0)
+        self.hbar_inner_color = (200, 0, 0)
+        self.hbar_outer_color = (3,255,1)
 
         music_path = os.path.join('display', 'music', 'hadden.wav')
         pygame.mixer.init()
@@ -232,18 +234,23 @@ class Display(BaseDisplay):
         Draws living players.
         My player is my opponent are in different colors
         """
+
+        health = obj.get_health() / obj.get_max_health()
+
         if obj.is_alive():
             rect = self.obj_to_rect(obj)
             if obj.get_oid() == engine.get_player_oid():
                 file_path = os.path.join('display', 'images', 'mario.gif')
                 image = pygame.image.load(file_path)
                 image = image.convert_alpha() # might not be nessesary depending on OS
-
-                rect = self.obj_to_rect(obj)
                 surface.blit(image, rect)
-                width = obj.get_pw()
-                height = obj.get_ph()
-                image = pygame.transform.scale(image, (width,height))
+
+                color = self.player_color
+                hbar_outer = pygame.Rect(10, 5 , 200,40 )
+                hbar_inner = pygame.Rect(10, 5, 200 * health,40  )
+                
+                pygame.draw.rect(surface, self.hbar_outer_color, hbar_outer)
+                pygame.draw.rect(surface, self.hbar_inner_color, hbar_inner)
             else:
                 file_path = os.path.join('display', 'images', 'bowser.png')
                 image = pygame.image.load(file_path)
