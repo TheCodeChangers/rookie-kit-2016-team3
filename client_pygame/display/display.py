@@ -245,7 +245,6 @@ class Display(BaseDisplay):
                 image = image.convert_alpha() # might not be nessesary depending on OS
                 surface.blit(image, rect)
 
-                color = self.player_color
                 hbar_outer = pygame.Rect(10, 5 , 200,40 )
                 hbar_inner = pygame.Rect(10, 5, 200 * health,40  )
                 
