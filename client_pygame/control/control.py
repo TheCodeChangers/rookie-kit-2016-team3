@@ -140,9 +140,16 @@ class Control(BaseControl):
             engine.set_player_direction(0)
             engine.set_missile_direction(0)
 
+# Mouse Constants:
+# LEFT = 1
+# MIDDLE = 2
+# RIGHT = 3
+# WHEEL_UP = 4
+# WHEEL_DOWN = 5
+
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
-        elif pygame.K_2 in newkeys:
+        elif 1 in buttons:
             engine.set_player_speed_slow()
             
         if pygame.K_q in newkeys:
