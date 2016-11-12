@@ -142,7 +142,13 @@ class Control(BaseControl):
 
         if pygame.K_1 in newkeys:
             engine.set_player_speed_stop()
-        elif pygame.K_2 in newkeys:
+        elif pygame.K_w in newkeys:
+            engine.set_player_speed_slow()
+        elif pygame.K_a in newkeys:
+            engine.set_player_speed_slow()
+        elif pygame.K_s in newkeys:
+            engine.set_player_speed_slow()
+        elif pygame.K_d in newkeys:
             engine.set_player_speed_slow()
             
         if pygame.K_q in newkeys:
